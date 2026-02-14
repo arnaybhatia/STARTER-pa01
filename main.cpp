@@ -4,37 +4,44 @@
 #include <string>
 #include "card.h"
 #include "card_list.h"
-//Do not include set in this file
+// Do not include set in this file
 
 using namespace std;
 
-int main(int argv, char** argc){
-  if(argv < 3){
+int main(int argv, char **argc)
+{
+  if (argv < 3)
+  {
     cout << "Please provide 2 file names" << endl;
     return 1;
   }
-  
-  ifstream cardFile1 (argc[1]);
-  ifstream cardFile2 (argc[2]);
+
+  ifstream cardFile1(argc[1]);
+  ifstream cardFile2(argc[2]);
   string line;
 
-  if (cardFile1.fail() || cardFile2.fail() ){
+  if (cardFile1.fail() || cardFile2.fail())
+  {
     cout << "Could not open file " << argc[2];
     return 1;
   }
 
-  //Read each file
-  while (getline (cardFile1, line) && (line.length() > 0)){
-
+  CardList alice_hand;
+  // Read each file
+  while (getline(cardFile1, line) && (line.length() > 0))
+  {
+    alice_hand.insert(CARD(line[0], line.substr(2)));
   }
   cardFile1.close();
 
-
-  while (getline (cardFile2, line) && (line.length() > 0)){
-
+  CardList bob_hand;
+  while (getline(cardFile2, line) && (line.length() > 0))
+  {
+    bob_hand.insert(CARD(line[0], line.substr(2)));
   }
   cardFile2.close();
-  
-  
+
+  playGame(alice_hand, bob_hand);
+
   return 0;
 }
